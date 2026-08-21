@@ -5,6 +5,7 @@ import type { Deal, DealStage, Invoice, Lead, Task, Thread, User } from './types
 import SettingsCrud from './SettingsCrud';
 import ModuleCrud from './ModuleCrud';
 import ClientPortal from './ClientPortal';
+import EmailWorkspace from './EmailWorkspace';
 
 const navGroups = [
   { label: '', items: [['dashboard', 'Dashboard', LayoutDashboard]] },
@@ -39,7 +40,7 @@ export default function App() {
           {page === 'leads' && <Leads leads={leads} setLeads={setLeads} onNew={() => setModal('lead')} showToast={showToast} />}
           {page === 'deals' && <Deals deals={deals} setDeals={setDeals} onNew={() => setDeals((current) => [{ id: `d${Date.now()}`, title: 'New deal', stage: 'new', value: 50000, ownerId: 'u1', client: 'New client', days: 0 }, ...current])} />}
           {page === 'whatsapp' && <WhatsApp threads={threads} setThreads={setThreads} showToast={showToast} />}
-          {page === 'email' && <ModuleCrud kind="email" showToast={showToast} />}
+          {page === 'email' && <EmailWorkspace showToast={showToast} />}
           {page === 'tasks' && <Tasks tasks={tasks} setTasks={setTasks} onNew={() => setModal('task')} />}
           {page === 'invoices' && <Invoices invoices={invoices} setInvoices={setInvoices} onNew={() => setModal('invoice')} showToast={showToast} />}
           {page === 'clients' && <ModuleCrud kind="clients" showToast={showToast} />}
