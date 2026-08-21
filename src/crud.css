@@ -1,0 +1,1 @@
+.crud-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px}.crud-actions button{width:29px;height:28px;border:1px solid var(--line);background:#fff;border-radius:6px;color:#68766d;display:grid;place-items:center}.crud-actions button:hover{color:var(--green);border-color:#9ccfb4}.toolbar .muted{margin-left:auto}.settings-modal .form-field{margin:13px 0}

@@ -1,0 +1,47 @@
+import { useState } from 'react';
+import { KeyRound, Mail, MessageSquare, MoreHorizontal, Pencil, Plus, Send, Trash2, UsersRound, X, Megaphone } from 'lucide-react';
+import type { User } from './types';
+import { users as seedUsers } from './data';
+
+type Tab = 'users' | 'keys' | 'mail' | 'whatsapp' | 'meta';
+type Row = { id: string; name: string; detail: string; role?: string; status: string };
+const tabs: { id: Tab; label: string; icon: typeof UsersRound }[] = [
+  { id: 'users', label: 'User Management', icon: UsersRound },
+  { id: 'keys', label: 'API Keys', icon: KeyRound },
+  { id: 'mail', label: 'Mail Connection', icon: Mail },
+  { id: 'whatsapp', label: 'WhatsApp Account', icon: MessageSquare },
+  { id: 'meta', label: 'Meta Ads Connection', icon: Send },
+];
+
+export default function SettingsCrud({ showToast }: { showToast: (message: string) => void }) {
+  const [tab, setTab] = useState<Tab>('users');
+  const [users, setUsers] = useState<User[]>(seedUsers.filter((user) => user.role !== 'client'));
+  const [keys, setKeys] = useState<Row[]>([
+    { id: 'key-1', name: 'Production API key', detail: 'vnd_live_••••••••2a91', role: 'Full access', status: 'Active' },
+    { id: 'key-2', name: 'Zapier integration', detail: 'vnd_live_••••••••8f04', role: 'Leads, deals', status: 'Active' },
+  ]);
+  const [mail, setMail] = useState<Row[]>([
+    { id: 'mail-1', name: 'maya@verdant.agency', detail: 'Google Workspace · Inbox synced', status: 'Connected' },
+    { id: 'mail-2', name: 'billing@verdant.agency', detail: 'IMAP / SMTP · Last synced 4m ago', status: 'Connected' },
+  ]);
+  const [whatsapp, setWhatsapp] = useState<Row[]>([
+    { id: 'wa-1', name: 'Verdant main', detail: '+91 98765 43210 · WABA Official', status: 'Connected' },
+    { id: 'wa-2', name: 'Sales QR inbox', detail: '+91 99887 77665 · QR / Baileys', status: 'Connected' },
+  ]);
+  const [meta, setMeta] = useState<Row[]>([
+    { id: 'meta-1', name: 'Verdant Business Manager', detail: 'Ad account · 6 campaigns connected', status: 'Connected' },
+  ]);
+  const [editing, setEditing] = useState<{ type: Tab; id?: string } | null>(null);
+  const current = tabs.find((item) => item.id === tab)!;
+  const remove = (id: string) => {
+    if (tab === 'users') setUsers((items) => items.filter((item) => item.id !== id));
+    if (tab === 'keys') setKeys((items) => items.filter((item) => item.id !== id));
+    if (tab === 'mail') setMail((items) => items.filter((item) => item.id !== id));
+    if (tab === 'whatsapp') setWhatsapp((items) => items.filter((item) => item.id !== id));
+    if (tab === 'meta') setMeta((items) => items.filter((item) => item.id !== id));
+    showToast('Item removed');
+  };
+  const rows = tab === 'users' ? users.map((item) => ({ id: item.id, name: item.name, detail: item.email, role: item.title, status: item.role === 'admin' ? 'Active' : 'Active' })) : tab === 'keys' ? keys : tab === 'mail' ? mail : tab === 'whatsapp' ? whatsapp : meta;
+  return <><div className="settings-title"><h1>Settings</h1></div><div className="settings-tabs">{tabs.map(({ id, label, icon: Icon }) => <button className={tab === id ? 'active' : ''} key={id} onClick={() => setTab(id)}><Icon size={14} /> {label}</button>)}</div><section className="settings-card"><div className="settings-card-head"><div><h2>{current.label}</h2><p>{tab === 'users' ? 'Manage access, roles, and team invitations.' : tab === 'keys' ? 'Keys used to connect Verdant to other tools.' : tab === 'mail' ? 'Connected inboxes for sending and receiving agency email.' : tab === 'whatsapp' ? 'Manage connected business numbers and inboxes.' : 'Connect the ad accounts that power your acquisition reporting.'}</p></div><button className="primary settings-action" onClick={() => setEditing({ type: tab })}><Plus size={14} /> {tab === 'users' ? 'Invite member' : tab === 'keys' ? 'Generate key' : tab === 'mail' ? 'Connect mailbox' : tab === 'whatsapp' ? 'Add account' : 'Connect account'}</button></div>{tab === 'whatsapp' && <div className="settings-note"><MessageSquare size={15} /><span><strong>Official and unofficial accounts</strong> WABA connections are recommended for production. QR / Baileys accounts are marked as unofficial.</span></div>}{tab === 'meta' && <div className="settings-note meta-note"><Megaphone size={15} /><span><strong>CTWA is enabled</strong> Click-to-WhatsApp campaign events are being imported.</span></div>}<div className="settings-table"><div className="settings-table-head"><span>{tab === 'users' ? 'Name' : 'Label'}</span><span>{tab === 'users' ? 'Email' : 'Details'}</span><span>{tab === 'users' ? 'Role' : 'Status'}</span><span>Actions</span></div>{rows.map((row) => <div className="settings-row" key={row.id}><div className="settings-name">{tab === 'users' ? <div className="avatar">{row.name.split(' ').map((word) => word[0]).join('')}</div> : <div className={`settings-symbol ${tab}`}>{tab === 'keys' ? <KeyRound size={15} /> : tab === 'mail' ? <Mail size={15} /> : tab === 'whatsapp' ? <MessageSquare size={15} /> : tab === 'meta' ? <Megaphone size={15} /> : null}</div>}<strong>{row.name}</strong></div><span className="settings-detail">{row.detail}</span><span>{row.role || <span className={`pill ${row.status === 'Connected' || row.status === 'Active' ? 'green' : 'amber'}`}>{row.status}</span>}</span><div className="settings-actions"><button title="Edit" onClick={() => setEditing({ type: tab, id: row.id })}><Pencil size={14} /></button><button title="Delete" onClick={() => remove(row.id)}><Trash2 size={14} /></button><MoreHorizontal size={16} color="#9aa79f" /></div></div>)}</div>{rows.length === 0 && <div className="empty">No records yet. Add your first one above.</div>}</section>{editing && <CrudModal type={editing.type} row={editing.id ? rows.find((item) => item.id === editing.id) : undefined} close={() => setEditing(null)} onSave={(data) => { const id = editing.id || `${tab}-${Date.now()}`; const next = { id, ...data }; if (tab === 'users') setUsers((items) => editing.id ? items.map((item) => item.id === id ? { ...item, name: data.name, email: data.detail, title: data.role || item.title } : item) : [...items, { id, name: data.name, email: data.detail, role: 'team_member', title: data.role || 'Team member', initials: data.name.split(' ').map((word) => word[0]).join('') }]); if (tab === 'keys') setKeys((items) => editing.id ? items.map((item) => item.id === id ? next : item) : [...items, next]); if (tab === 'mail') setMail((items) => editing.id ? items.map((item) => item.id === id ? next : item) : [...items, next]); if (tab === 'whatsapp') setWhatsapp((items) => editing.id ? items.map((item) => item.id === id ? next : item) : [...items, next]); if (tab === 'meta') setMeta((items) => editing.id ? items.map((item) => item.id === id ? next : item) : [...items, next]); setEditing(null); showToast(editing.id ? 'Changes saved' : 'New record added'); }} />}</>;
+}
+function CrudModal({ type, row, close, onSave }: { type: Tab; row?: Row; close: () => void; onSave: (row: { name: string; detail: string; role?: string; status: string }) => void }) { const [name, setName] = useState(row?.name || ''); const [detail, setDetail] = useState(row?.detail || ''); const [role, setRole] = useState(row?.role || 'Team member'); const titles: Record<Tab, string> = { users: 'Invite team member', keys: 'Generate API key', mail: 'Connect mailbox', whatsapp: 'Add WhatsApp account', meta: 'Connect Meta account' }; return <div className="modal-backdrop" onMouseDown={close}><div className="modal settings-modal" onMouseDown={(event) => event.stopPropagation()}><div className="modal-top"><div><p className="eyebrow">Settings</p><h2>{row ? 'Edit record' : titles[type]}</h2></div><button className="icon-btn" onClick={close}><X size={16} /></button></div><div className="form-field"><label>{type === 'users' ? 'Name' : 'Label'}</label><input autoFocus value={name} onChange={(event) => setName(event.target.value)} placeholder={type === 'users' ? 'Priyanka Sen' : 'Workspace account'} /></div><div className="form-field"><label>{type === 'users' ? 'Email address' : type === 'keys' ? 'Scope' : 'Connection details'}</label><input value={detail} onChange={(event) => setDetail(event.target.value)} placeholder={type === 'users' ? 'name@agency.com' : 'Full access'} /></div>{type === 'users' && <div className="form-field"><label>Role</label><select value={role} onChange={(event) => setRole(event.target.value)}><option>Account Manager</option><option>Project Lead</option><option>Designer</option><option>Team member</option></select></div>}{type === 'keys' && <div className="settings-warning"><KeyRound size={14} /> The full key will be shown once after creation.</div>}<div className="modal-actions"><button className="secondary" onClick={close}>Cancel</button><button className="primary" onClick={() => onSave({ name: name || 'Untitled record', detail: detail || 'Not configured', role: type === 'users' ? role : undefined, status: 'Active' })}>{row ? 'Save changes' : 'Create'}</button></div></div></div>; }
