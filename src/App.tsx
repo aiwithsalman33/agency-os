@@ -7,9 +7,11 @@ import ModuleCrud from './ModuleCrud';
 import ClientPortal from './ClientPortal';
 
 const navGroups = [
-  { label: 'Workspace', items: [['dashboard', 'Dashboard', LayoutDashboard], ['whatsapp', 'WhatsApp', MessageCircle], ['email', 'Email', Inbox], ['leads', 'Leads', Target], ['deals', 'Deals', CircleDollarSign], ['clients', 'Clients', Users], ['tasks', 'Tasks', ClipboardList], ['invoices', 'Invoices', FileText], ['proposals', 'Proposals', FileText]] },
-  { label: 'Automation', items: [['workflows', 'Workflows', Zap], ['forms', 'Forms', FileText], ['meta-ads', 'Meta Ads', Sparkles]] },
-  { label: 'Manage', items: [['settings', 'Settings', Settings]] },
+  { label: '', items: [['dashboard', 'Dashboard', LayoutDashboard]] },
+  { label: 'Communication', items: [['whatsapp', 'WhatsApp', MessageCircle], ['email', 'Email', Inbox]] },
+  { label: 'CRM', items: [['leads', 'Leads', Target], ['deals', 'Deals', CircleDollarSign], ['clients', 'Clients', Users], ['invoices', 'Invoices', FileText], ['proposals', 'Proposals', FileText], ['tasks', 'Tasks', ClipboardList]] },
+  { label: 'Automation', items: [['workflows', 'Workflow Automation', Zap], ['forms', 'Forms', FileText], ['meta-ads', 'Meta Ads Manager', Sparkles]] },
+  { label: '', items: [['settings', 'Settings', Settings]] },
 ] as const;
 const stageLabels: Record<DealStage, string> = { new: 'New', qualified: 'Qualified', proposal_sent: 'Proposal sent', negotiation: 'Negotiation', won: 'Won', lost: 'Lost' };
 const money = (value: number) => `₹${(value / 1000).toFixed(value >= 100000 ? 0 : 1)}k`;

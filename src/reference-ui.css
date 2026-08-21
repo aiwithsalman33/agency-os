@@ -1,0 +1,46 @@
+/* Compact Agency OS workspace treatment */
+:root{--reference-border:#e5e8e6;--reference-green:#008b68;--reference-soft:#e8faf3}
+body{background:#fff;color:#18231e}
+.app{min-height:100vh;background:#fff}
+.sidebar{width:188px;padding:18px 6px 8px;background:#fff;border-right:1px solid var(--reference-border)}
+.brand{height:32px;padding:0 12px 28px;gap:8px;font-size:15px}
+.brand-mark{width:23px;height:23px;border-radius:6px;font-size:0}
+.brand-mark::after{content:'A';font-size:12px}
+.nav-label{padding:13px 14px 6px;font-size:9px;letter-spacing:.04em}
+.nav-item{padding:7px 14px;border-radius:7px;font-size:12px;gap:9px;color:#4d5b53}
+.nav-item.active{background:#e4faf2;color:#007d5d}
+.side-bottom{padding-top:7px}
+.profile-mini{display:none}
+.main{background:#fff}
+.topbar{height:47px;padding:0 18px;border-bottom:1px solid var(--reference-border);background:#fff}
+.crumb{display:none}
+.top-actions{width:100%;justify-content:flex-end}
+.top-actions .search{margin-right:auto;width:320px;height:27px;padding:6px 10px;background:#f5f6f5;border:0;font-size:11px}
+.top-actions .icon-btn{border:0;padding:5px;background:transparent}
+.top-actions .avatar{width:25px;height:25px;font-size:9px}
+.content{padding:20px 22px;max-width:none}
+.page-head{margin-bottom:18px}
+.page-head h1{font-size:22px;letter-spacing:-.025em}
+.page-head p{font-size:11px;margin-top:4px}
+.eyebrow{font-size:9px;margin-bottom:5px}
+.primary{background:var(--reference-green);border-radius:6px;padding:8px 12px;font-size:11px}
+.filter-row{margin-bottom:14px}
+.filter,.text-btn{border-radius:6px;padding:7px 10px;font-size:11px}
+.section-wrap,.panel{border-color:var(--reference-border);border-radius:10px;box-shadow:none}
+.panel{padding:16px}
+.table th{padding:10px 12px;font-size:9px}.table td{padding:10px 12px;font-size:12px}
+.table .avatar{width:23px;height:23px;font-size:8px}
+.table small{font-size:10px}
+.pill{padding:3px 7px;font-size:10px;border-radius:10px}
+.kpis{gap:10px}.kpi{padding:13px;border-radius:9px}.kpi-value{font-size:20px}
+.dashboard-grid{gap:12px;margin-top:12px}
+.chat-layout{height:calc(100vh - 67px);min-height:0;border:0;border-radius:0}
+.thread-list{border-right:1px solid var(--reference-border)}
+.thread-search{padding:10px}.thread-search .search{height:27px;padding:6px 9px;font-size:11px}
+.thread-row{padding:11px 10px}.thread-row strong{font-size:12px}.thread-row p{font-size:10px}
+.chat-head{padding:11px 17px}.chat-head strong{font-size:12px}.messages{padding:18px;background:#fff}.bubble{font-size:11px;padding:9px 12px;border-radius:8px}.composer{padding:10px}.composer input{padding:8px;font-size:11px}.context{padding:15px}
+.workflow-list{gap:8px}
+.workflow{padding:14px}.workflow h3{font-size:12px}
+.settings-title h1{font-size:22px}.settings-tabs{gap:6px}.settings-tabs button{padding:8px 11px;font-size:11px}.settings-card{padding:16px}.settings-card-head h2{font-size:14px}.settings-row{font-size:12px;min-height:52px}
+.login-art .brand{font-size:15px}
+@media(max-width:720px){.sidebar{display:none}.content{padding:16px}.topbar{padding:0 12px}.top-actions .search{width:220px}.kpis{grid-template-columns:repeat(2,1fr)}}
