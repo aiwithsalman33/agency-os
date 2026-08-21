@@ -6,6 +6,7 @@ import SettingsCrud from './SettingsCrud';
 import ModuleCrud from './ModuleCrud';
 import ClientPortal from './ClientPortal';
 import EmailWorkspace from './EmailWorkspace';
+import { InvoiceWorkspace, MetaAdsWorkspace, ProposalWorkspace } from './BusinessModules';
 
 const navGroups = [
   { label: '', items: [['dashboard', 'Dashboard', LayoutDashboard]] },
@@ -42,12 +43,12 @@ export default function App() {
           {page === 'whatsapp' && <WhatsApp threads={threads} setThreads={setThreads} showToast={showToast} />}
           {page === 'email' && <EmailWorkspace showToast={showToast} />}
           {page === 'tasks' && <Tasks tasks={tasks} setTasks={setTasks} onNew={() => setModal('task')} />}
-          {page === 'invoices' && <Invoices invoices={invoices} setInvoices={setInvoices} onNew={() => setModal('invoice')} showToast={showToast} />}
+          {page === 'invoices' && <InvoiceWorkspace invoices={invoices} setInvoices={setInvoices} onNew={() => setModal('invoice')} showToast={showToast} />}
           {page === 'clients' && <ModuleCrud kind="clients" showToast={showToast} />}
           {page === 'workflows' && <ModuleCrud kind="workflows" showToast={showToast} />}
           {page === 'forms' && <ModuleCrud kind="forms" showToast={showToast} />}
-          {page === 'meta-ads' && <ModuleCrud kind="meta" showToast={showToast} />}
-          {page === 'proposals' && <ModuleCrud kind="proposals" showToast={showToast} />}
+          {page === 'meta-ads' && <MetaAdsWorkspace showToast={showToast} />}
+          {page === 'proposals' && <ProposalWorkspace showToast={showToast} />}
           {page === 'settings' && <SettingsCrud showToast={showToast} />}
         </>}
       </div>
